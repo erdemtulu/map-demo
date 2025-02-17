@@ -18,6 +18,22 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 )
+api.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    async (error) => {
+        if (error.response) {
+            if (error.response.status === 401) {
+                if (error.config && error.config.url !== 'login') {
+                    window.location.href = '/login';
+                }
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 
 export { api };
