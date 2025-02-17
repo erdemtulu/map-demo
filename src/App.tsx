@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 import AuthRouterOutlet from './AuthRouterOutlet';
 import HomePage from './pages/HomePage';
 import RouterOutlet from './RouterOutlet';
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <AuthRouterOutlet />,
     children: [
+      {
+        path: '',
+        element: <Navigate to={localStorage.getItem('accessToken') ? '/app' : '/login'} />,
+      },
       {
         path: 'login',
         element: <LoginPage />,
