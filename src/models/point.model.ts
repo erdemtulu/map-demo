@@ -1,5 +1,5 @@
 export interface Point {
-    position: number[];
+    position: [number, number];
     id: string;
     name: string
 }
