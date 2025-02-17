@@ -20,6 +20,14 @@ export const appState = createSlice({
             }));
         })
 
+        builder.addCase(getHeavyMapData.fulfilled, (state, action) => {
+            state.mapData = action.payload.data.features.map((feature) => ({
+                position: feature.geometry.coordinates,
+                id: feature.properties.id,
+                name: feature.properties.name,
+            }));
+        })
+
     }
 })
 
@@ -28,6 +36,20 @@ export const getMapData = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const mapData: AxiosResponse<{ type: string, features: Feature[] }> = await api.get<{ type: string, features: Feature[] }>('data');
+            return mapData
+        }
+        catch (error) {
+            const axiosError = error as AxiosError;
+            return rejectWithValue(axiosError.message)
+        }
+    }
+)
+
+export const getHeavyMapData = createAsyncThunk(
+    'getHeavyMapData',
+    async (_, { rejectWithValue }) => {
+        try {
+            const mapData: AxiosResponse<{ type: string, features: Feature[] }> = await api.get<{ type: string, features: Feature[] }>('heavy_data');
             return mapData
         }
         catch (error) {

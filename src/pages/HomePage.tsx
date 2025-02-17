@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, IRootState } from '../store/store';
 import { getMapData } from '../store/app-state';
 import { Point } from '../models/point.model';
+import { Button } from '@mui/material';
 
 //Set the initial view state to nootdorp
 const INITIAL_VIEW_STATE = {
