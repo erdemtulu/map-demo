@@ -10,7 +10,8 @@ export const authState = createSlice({
         logout() {
             localStorage.removeItem('accessToken')
             window.location.href = '/login';
-        }
+        },
+
     },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
@@ -30,6 +31,8 @@ export const authActions = authState.actions
 export const login = createAsyncThunk(
     'login',
     async (userInfo: { username: string, password: string }, { rejectWithValue }) => {
+        if (userInfo.username.trim() === '' || userInfo.password.trim() === '')
+            return rejectWithValue("Empty credentials")
         try {
             const tokens: AxiosResponse<{ accessToken: string }> = await api.post<{ accessToken: string }>('login', userInfo);
             return tokens
