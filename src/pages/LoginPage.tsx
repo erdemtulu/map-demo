@@ -12,7 +12,14 @@ export default function LoginPage() {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        dispatch(login({ username, password }))
+        dispatch(login({ username, password })).then(
+            (res) => {
+                if (res.type === 'login/fulfilled')
+                    window.location.href = '/app'
+            })
+            .catch((error) => {
+                console.error(error);
+            })
     };
 
     return (

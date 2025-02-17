@@ -9,7 +9,6 @@ export const authState = createSlice({
     reducers: {
         logout() {
             localStorage.removeItem('accessToken')
-            window.location.href = '/login';
         },
 
     },
@@ -17,7 +16,6 @@ export const authState = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             state.errorMsg = ''
             localStorage.setItem('accessToken', action.payload.data.accessToken);
-            window.location.href = '/app';
         })
         builder.addCase(login.rejected, (state, action) => {
             state.errorMsg = action.payload as string
