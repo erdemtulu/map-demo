@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { Map, MapRef, NavigationControl, Popup } from 'react-map-gl/maplibre';
-import { Layer, ScatterplotLayer } from 'deck.gl';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { FullscreenControl, GeolocateControl, Map, MapRef, NavigationControl, Popup, ScaleControl } from 'react-map-gl/maplibre';
+import { IconLayer, Layer } from 'deck.gl';
 import { MapboxOverlay as DeckOverlay } from '@deck.gl/mapbox';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, IRootState } from '../store/store';
-import { getMapData } from '../store/app-state';
+import { getHeavyMapData, getMapData } from '../store/app-state';
 import { Point } from '../models/point.model';
-import { Button } from '@mui/material';
 
 //Set the initial view state to nootdorp
 const INITIAL_VIEW_STATE = {
@@ -18,7 +17,7 @@ const INITIAL_VIEW_STATE = {
     pitch: 30
 };
 
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+const MAP_STYLE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
 
 interface DeckGLOverlayProps {
     layers: Layer[];
@@ -45,28 +44,50 @@ export default function HomePage() {
     const points: Point[] = useSelector((state: IRootState) => state.app.mapData)
     const mapRef = useRef<MapRef>(null);
     const [selected, setSelected] = useState<Point | null>(null);
+
     useEffect(() => {
-        dispatch(getMapData())
+        dispatch(getHeavyMapData())
     }, [dispatch])
 
-
-    const layers = [
-        new ScatterplotLayer({
-            id: 'scatterplot-layer',
+    const layers = useMemo(() => [
+        new IconLayer({
+            id: 'IconLayer',
             data: points,
+            getColor: [255, 0, 0],
+            getIcon: () => 'marker-warning',
             getPosition: (d: Point) => d.position,
-            getRadius: 10,
-            getLineColor: [255, 0, 0],
-            getFillColor: [255, 0, 0],
+            getSize: 20,
+            iconAtlas: 'icon-atlas.png',
+            iconMapping: {
+                "marker": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 128,
+                    "height": 128,
+                    "anchorY": 128,
+                    "mask": true
+                },
+                "marker-warning": {
+                    "x": 128,
+                    "y": 0,
+                    "width": 128,
+                    "height": 128,
+                    "anchorY": 128,
+                    "mask": false
+                }
+            },
             pickable: true,
-            radiusMinPixels: 1,
             onClick: info => setSelected(info.object)
         })
-    ];
+    ], [points]);
 
     return (
         <>
             <Map ref={mapRef} initialViewState={INITIAL_VIEW_STATE} mapStyle={MAP_STYLE} style={{ height: '100vh' }}>
+                <GeolocateControl position="top-left" />
+                <FullscreenControl position="top-left" />
+                <NavigationControl position="top-left" />
+                <ScaleControl />
                 {selected && (
                     <Popup
                         key={selected.id}
@@ -79,7 +100,7 @@ export default function HomePage() {
                     </Popup>
                 )}
                 <DeckGLOverlayComponent layers={layers} mapRef={mapRef} />
-                <NavigationControl position="top-left" />
+
             </Map>
         </>
     );
