@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Map, NavigationControl } from 'react-map-gl/maplibre';
-import { ScatterplotLayer } from 'deck.gl';
+import { Map, MapRef, NavigationControl } from 'react-map-gl/maplibre';
+import { Layer, ScatterplotLayer } from 'deck.gl';
 import { MapboxOverlay as DeckOverlay } from '@deck.gl/mapbox';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,14 +19,15 @@ const INITIAL_VIEW_STATE = {
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 interface DeckGLOverlayProps {
-    layers: any[];
+    layers: Layer[];
+    mapRef: any;
 }
-function DeckGLOverlayComponent(props: DeckGLOverlayProps) {
-    const mapRef = useRef<any>(null);
 
+function DeckGLOverlayComponent({ layers, mapRef }: DeckGLOverlayProps) {
+    console.log(mapRef)
     useEffect(() => {
         if (mapRef.current) {
-            const deckOverlay = new DeckOverlay(props);
+            const deckOverlay = new DeckOverlay({ layers });
 
             // Attach the overlay to the map
             mapRef.current.getMap().addControl(deckOverlay);
@@ -36,13 +37,14 @@ function DeckGLOverlayComponent(props: DeckGLOverlayProps) {
                 mapRef.current.getMap().removeControl(deckOverlay);
             };
         }
-    }, [props, mapRef]);
+    }, [layers, mapRef]);
 
     return null;
 }
 export default function HomePage() {
     const dispatch = useDispatch<AppDispatch>()
     const points = useSelector((state: IRootState) => state.app.mapData)
+    const mapRef = useRef<MapRef>(null); // Now mapRef is defined here
     useEffect(() => {
         dispatch(getMapData())
     }, [dispatch])
@@ -53,19 +55,19 @@ export default function HomePage() {
             id: 'scatterplot-layer',
             data: points,
             getPosition: (d: Point) => d.position,  // Ensure the position is a tuple [number, number]
-            getRadius: 300,
+            getRadius: 10,
             getLineColor: [255, 0, 0],
             getFillColor: [255, 0, 0],
             pickable: true,
-            radiusMinPixels: 5,
+            radiusMinPixels: 1,
         })
     ];
 
     return (
         <>
-            <Map initialViewState={INITIAL_VIEW_STATE} mapStyle={MAP_STYLE} style={{ height: '100vh' }}>
+            <Map ref={mapRef} initialViewState={INITIAL_VIEW_STATE} mapStyle={MAP_STYLE} style={{ height: '100vh' }}>
 
-                <DeckGLOverlayComponent layers={layers} /* interleaved*/ />
+                <DeckGLOverlayComponent layers={layers} mapRef={mapRef} /* interleaved*/ />
                 <NavigationControl position="top-left" />
             </Map>
         </>
