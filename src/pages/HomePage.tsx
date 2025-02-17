@@ -8,6 +8,7 @@ import { AppDispatch, IRootState } from '../store/store';
 import { getMapData } from '../store/app-state';
 import { Point } from '../models/point.model';
 
+//Set the initial view state to nootdorp
 const INITIAL_VIEW_STATE = {
     latitude: 52.047,
     longitude: 4.42,
