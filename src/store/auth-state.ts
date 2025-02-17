@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { api } from "../utils/axios-middleware";
 
-
+const initialState: { errorMsg: string } = { errorMsg: '' }
 export const authState = createSlice({
     name: 'authState',
-    initialState: {},
+    initialState,
     reducers: {
         logout() {
             localStorage.removeItem('accessToken')
@@ -14,8 +14,12 @@ export const authState = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
+            state.errorMsg = ''
             localStorage.setItem('accessToken', action.payload.data.accessToken);
             window.location.href = '/app';
+        })
+        builder.addCase(login.rejected, (state, action) => {
+            state.errorMsg = action.payload as string
         })
 
     }
@@ -31,7 +35,8 @@ export const login = createAsyncThunk(
             return tokens
         }
         catch (error) {
-            return rejectWithValue(error)
+            const axiosError = error as AxiosError;
+            return rejectWithValue(axiosError.message)
         }
     }
 )

@@ -3,7 +3,7 @@ import axios from 'axios';
 //Local Storage is used to store tokens since HttpOnly Cookies are not supported on the backend project
 const api = axios.create({
     baseURL: 'http://localhost:3000',
-    withCredentials: false
+    withCredentials: false // change this to true to use HttpOnly cookies
 });
 api.interceptors.request.use(
     (config) => {

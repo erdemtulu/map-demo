@@ -1,23 +1,17 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, IRootState } from "../store/store";
 import { login } from "../store/auth-state";
 
 export default function LoginPage() {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [error, setError] = useState<string>("");
     const dispatch = useDispatch<AppDispatch>();
+    const error = useSelector((state: IRootState) => state.auth.errorMsg)
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        if (username === "" || password === "") {
-            setError("Both fields are required");
-            return;
-        }
-
-        setError("");
         dispatch(login({ username, password }))
     };
 
