@@ -1,10 +1,8 @@
 import { AppBar, Box, Container, CssBaseline, Link, Toolbar, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React from 'react';
 import {
     Outlet,
 } from "react-router";
-import Footer from './components/Footer';
 const theme = createTheme();
 export default function RouterOutlet() {
     return <main>
@@ -18,10 +16,7 @@ export default function RouterOutlet() {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Container>
-                <Outlet />
-            </Container>
-            <Footer />
+            <Outlet />
         </ThemeProvider>
     </main>
 }
