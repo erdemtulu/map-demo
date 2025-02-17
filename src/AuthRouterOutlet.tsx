@@ -12,16 +12,16 @@ export default function AuthRouterOutlet() {
             <AppBar position="sticky">
                 <Toolbar>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        best
+                        map-demo
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Container sx={{ minHeight: 632 }}>
+            <Container >
                 <Outlet />
             </Container>
-            <Box sx={{ backgroundColor: '#333', color: 'white', padding: '30px 0', textAlign: 'center' }}>
+            <Box sx={{ backgroundColor: '#333', color: 'white', padding: '30px 0', textAlign: 'center', bottom: 0, position: 'fixed', width: '100%' }}>
                 <Typography variant="h6">
-                    best
+                    map-demo
                 </Typography>
                 <Box sx={{ marginTop: 2 }}>
                     <Link href="#" color="inherit" sx={{ margin: 1 }}>

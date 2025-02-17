@@ -1,4 +1,3 @@
-import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import AuthRouterOutlet from './AuthRouterOutlet';
 import HomePage from './pages/HomePage';

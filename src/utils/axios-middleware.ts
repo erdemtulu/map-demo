@@ -2,11 +2,14 @@ import axios from 'axios';
 //IMPORTANT
 //Local Storage is used to store tokens since HttpOnly Cookies are not supported on the backend project
 const api = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://localhost:3000',
     withCredentials: false
 });
 api.interceptors.request.use(
     (config) => {
+        config.headers["Content-Type"] = "application/json";
+        config.headers["Access-Control-Request-Headers"] = "*";
+        config.headers["Access-Control-Request-Method"] = "*";
         const accessToken = localStorage.getItem('accessToken') || '';
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -17,3 +20,5 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 )
+
+export { api };
