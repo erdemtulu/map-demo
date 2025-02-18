@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, CssBaseline, Link, Toolbar, Typography } from '@mui/material';
+import { AppBar, Container, CssBaseline, Toolbar, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
     Outlet,
