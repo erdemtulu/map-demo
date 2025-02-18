@@ -6,7 +6,6 @@ describe('Footer', () => {
     test('renders Footer component', () => {
         render(<Footer />);
 
-        // Check if the main footer text is rendered
         const footerText = screen.getByText('map-demo');
         expect(footerText).toBeInTheDocument();
     });
@@ -14,7 +13,6 @@ describe('Footer', () => {
     test('renders privacy policy, terms, help center, and contact us links', () => {
         render(<Footer />);
 
-        // Check if all links are present
         const privacyPolicyLink = screen.getByText('Privacy Policy');
         const termsLink = screen.getByText('Terms & Conditions');
         const helpCenterLink = screen.getByText('Help Center');
@@ -29,11 +27,9 @@ describe('Footer', () => {
     test('renders Follow Us section and social media links', () => {
         render(<Footer />);
 
-        // Check if the "Follow Us" text is present
         const followUsText = screen.getByText('Follow Us');
         expect(followUsText).toBeInTheDocument();
 
-        // Check if social media links are present
         const facebookLink = screen.getByText('Facebook');
         const twitterLink = screen.getByText('Twitter');
         const linkedinLink = screen.getByText('LinkedIn');
@@ -46,7 +42,6 @@ describe('Footer', () => {
     test('links have correct href attributes', () => {
         render(<Footer />);
 
-        // Check if all links have the correct href attribute
         const privacyPolicyLink = screen.getByText('Privacy Policy');
         const termsLink = screen.getByText('Terms & Conditions');
         const helpCenterLink = screen.getByText('Help Center');
@@ -69,7 +64,7 @@ describe('Footer', () => {
     test('Footer has correct background color and text color', () => {
         render(<Footer />);
 
-        const footer = screen.getByText('map-demo').closest('div'); // Get the parent Box component
+        const footer = screen.getByText('map-demo').closest('div'); 
         expect(footer).toHaveStyle('background-color: #333');
         expect(footer).toHaveStyle('color: white');
     });
@@ -77,7 +72,7 @@ describe('Footer', () => {
     test('Footer has fixed position at the bottom', () => {
         render(<Footer />);
 
-        const footer = screen.getByText('map-demo').closest('div'); // Get the parent Box component
+        const footer = screen.getByText('map-demo').closest('div'); 
         expect(footer).toHaveStyle('position: fixed');
         expect(footer).toHaveStyle('bottom: 0');
         expect(footer).toHaveStyle('width: 100%');
