@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import Footer from './Footer'; // Adjust the import path if necessary
-import '@testing-library/jest-dom'; // For the "toBeInTheDocument" matcher
+import Footer from './Footer'; 
+import '@testing-library/jest-dom'; 
 
 describe('Footer', () => {
     test('renders Footer component', () => {

@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, IRootState } from '../store/store';
 import { getHeavyMapData, getMapData } from '../store/app-state';
 import { Point } from '../models/point.model';
-
+import { Box, ToggleButton, Tooltip } from '@mui/material';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 //Set the initial view state to nootdorp
 const INITIAL_VIEW_STATE = {
     latitude: 52.047,
@@ -44,10 +45,14 @@ export default function HomePage() {
     const points: Point[] = useSelector((state: IRootState) => state.app.mapData)
     const mapRef = useRef<MapRef>(null);
     const [selected, setSelected] = useState<Point | null>(null);
+    const [heavy, setHeavy] = useState(false)
 
     useEffect(() => {
-        dispatch(getHeavyMapData())
-    }, [dispatch])
+        if (heavy)
+            dispatch(getHeavyMapData())
+        else
+            dispatch(getMapData())
+    }, [dispatch, heavy])
 
     const layers = useMemo(() => [
         new IconLayer({
@@ -84,6 +89,17 @@ export default function HomePage() {
     return (
         <>
             <Map ref={mapRef} initialViewState={INITIAL_VIEW_STATE} mapStyle={MAP_STYLE} style={{ height: '100vh' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                    <Tooltip title={'Click to load ' + (heavy ? 'light data' : 'heavy data')} placement='left'>
+                        <ToggleButton
+                            value="check"
+                            selected={heavy}
+                            onChange={() => setHeavy((prevSelected) => !prevSelected)}
+                        >
+                            <LocalFireDepartmentIcon fontSize='large' color={heavy ? 'warning' : 'primary'} />
+                        </ToggleButton>
+                    </Tooltip>
+                </Box>
                 <GeolocateControl position="top-left" />
                 <FullscreenControl position="top-left" />
                 <NavigationControl position="top-left" />
