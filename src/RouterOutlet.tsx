@@ -2,6 +2,7 @@ import { AppBar, CssBaseline, Toolbar, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
     Outlet,
+    useNavigate,
 } from "react-router";
 import AccountMenu from './components/AccountMenu';
 import { useDispatch } from 'react-redux';
@@ -11,9 +12,10 @@ const theme = createTheme();
 
 export default function RouterOutlet() {
     const dispatch = useDispatch<AppDispatch>()
+    const navigate = useNavigate()
     function handleLogOut() {
         dispatch(authActions.logout())
-        window.location.href = '/login';
+        navigate('/login');
     }
     return <main>
         <ThemeProvider theme={theme}>

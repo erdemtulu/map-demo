@@ -3,19 +3,21 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, IRootState } from "../store/store";
 import { login } from "../store/auth-state";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const dispatch = useDispatch<AppDispatch>();
     const error = useSelector((state: IRootState) => state.auth.errorMsg)
+    const navigate = useNavigate()
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         dispatch(login({ username, password })).then(
             (res) => {
                 if (res.type === 'login/fulfilled')
-                    window.location.href = '/app'
+                    navigate('/app')
             })
             .catch((error) => {
                 console.error(error);

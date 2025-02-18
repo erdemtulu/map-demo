@@ -23,11 +23,12 @@ api.interceptors.response.use(
         return response;
     },
     async (error) => {
+
         if (error.response) {
             if (error.response.status === 401) {
                 if (error.config && error.config.url !== 'login') {
                     localStorage.removeItem('accessToken')
-                    window.location.href = '/login';
+                    window.location.replace('/login');
                 }
             }
         }
