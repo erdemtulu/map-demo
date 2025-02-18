@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError, AxiosResponse } from "axios";
 import { api } from "../utils/axios-middleware";
 import { Feature } from "../models/feature.model";

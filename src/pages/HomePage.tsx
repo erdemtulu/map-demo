@@ -1,5 +1,5 @@
 import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
-import { FullscreenControl, GeolocateControl, IControl, Map, MapRef, NavigationControl, Popup, ScaleControl } from 'react-map-gl/maplibre';
+import { FullscreenControl, IControl, Map, MapRef, NavigationControl, Popup, ScaleControl } from 'react-map-gl/maplibre';
 import { IconLayer, Layer } from 'deck.gl';
 import { MapboxOverlay as DeckOverlay } from '@deck.gl/mapbox';
 import 'maplibre-gl/dist/maplibre-gl.css';
