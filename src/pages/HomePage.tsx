@@ -94,7 +94,10 @@ export default function HomePage() {
                         <ToggleButton
                             value="check"
                             selected={heavy}
-                            onChange={() => setHeavy((prevSelected) => !prevSelected)}
+                            onChange={() => {
+                                setHeavy((prevSelected) => !prevSelected)
+                                setSelected(null)
+                            }}
                         >
                             <LocalFireDepartmentIcon fontSize='large' color={heavy ? 'warning' : 'primary'} />
                         </ToggleButton>
