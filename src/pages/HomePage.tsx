@@ -113,7 +113,6 @@ export default function HomePage() {
                     autoHideDuration={6000}
                     message={mapDataError}
                 />
-                <GeolocateControl position="top-left" />
                 <FullscreenControl position="top-left" />
                 <NavigationControl position="top-left" />
                 <ScaleControl />
