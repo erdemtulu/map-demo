@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { FullscreenControl, GeolocateControl, Map, MapRef, NavigationControl, Popup, ScaleControl } from 'react-map-gl/maplibre';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { FullscreenControl, GeolocateControl, IControl, Map, MapRef, NavigationControl, Popup, ScaleControl } from 'react-map-gl/maplibre';
 import { IconLayer, Layer } from 'deck.gl';
 import { MapboxOverlay as DeckOverlay } from '@deck.gl/mapbox';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -22,7 +22,7 @@ const MAP_STYLE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.j
 
 interface DeckGLOverlayProps {
     layers: Layer[];
-    mapRef: any;
+    mapRef: RefObject<MapRef | null>;
 }
 
 function DeckGLOverlayComponent({ layers, mapRef }: DeckGLOverlayProps) {
@@ -30,10 +30,11 @@ function DeckGLOverlayComponent({ layers, mapRef }: DeckGLOverlayProps) {
         if (mapRef.current) {
             const deckOverlay = new DeckOverlay({ layers });
 
-            mapRef.current.getMap().addControl(deckOverlay);
+            mapRef.current.getMap().addControl(deckOverlay as IControl);
 
             return () => {
-                mapRef.current.getMap().removeControl(deckOverlay);
+                if (mapRef.current)
+                    mapRef.current.getMap().removeControl(deckOverlay as IControl);
             };
         }
     }, [layers, mapRef]);
