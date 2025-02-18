@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -8,18 +7,21 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Logout from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useState } from 'react';
 
 export default function AccountMenu({ onLogOut }: React.PropsWithChildren<{ onLogOut: () => void }>) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [open, setOpen] = useState(false);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
+        setOpen(true)
     };
     const handleClose = () => {
         setAnchorEl(null);
+        setOpen(false)
     };
     return (
-        <React.Fragment>
+        <>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <IconButton
                     onClick={handleClick}
@@ -37,7 +39,6 @@ export default function AccountMenu({ onLogOut }: React.PropsWithChildren<{ onLo
                 id="account-menu"
                 open={open}
                 onClose={handleClose}
-                onClick={handleClose}
                 slotProps={{
                     paper: {
                         elevation: 0,
@@ -84,6 +85,6 @@ export default function AccountMenu({ onLogOut }: React.PropsWithChildren<{ onLo
                     Logout
                 </MenuItem>
             </Menu>
-        </React.Fragment>
+        </>
     );
 }
