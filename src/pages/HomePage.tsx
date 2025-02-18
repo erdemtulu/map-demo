@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, IRootState } from '../store/store';
 import { getHeavyMapData, getMapData } from '../store/app-state';
 import { Point } from '../models/point.model';
-import { Box, ToggleButton, Tooltip } from '@mui/material';
+import { Box, Snackbar, ToggleButton, Tooltip } from '@mui/material';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 //Set the initial view state to nootdorp
 const INITIAL_VIEW_STATE = {
@@ -44,6 +44,8 @@ function DeckGLOverlayComponent({ layers, mapRef }: DeckGLOverlayProps) {
 export default function HomePage() {
     const dispatch = useDispatch<AppDispatch>()
     const points: Point[] = useSelector((state: IRootState) => state.app.mapData)
+    const mapDataPending: boolean = useSelector((state: IRootState) => state.app.pending)
+    const mapDataError: string = useSelector((state: IRootState) => state.app.error)
     const mapRef = useRef<MapRef>(null);
     const [selected, setSelected] = useState<Point | null>(null);
     const [heavy, setHeavy] = useState(false)
@@ -99,11 +101,18 @@ export default function HomePage() {
                                 setHeavy((prevSelected) => !prevSelected)
                                 setSelected(null)
                             }}
+                            disabled={mapDataPending}
                         >
                             <LocalFireDepartmentIcon fontSize='large' color={heavy ? 'warning' : 'primary'} />
                         </ToggleButton>
                     </Tooltip>
                 </Box>
+                <Snackbar
+                    open={!!mapDataError}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    autoHideDuration={6000}
+                    message={mapDataError}
+                />
                 <GeolocateControl position="top-left" />
                 <FullscreenControl position="top-left" />
                 <NavigationControl position="top-left" />
