@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import AccountMenu from './AccountMenu';
-import userEvent from '@testing-library/user-event';
 
 describe('AccountMenu', () => {
     const mockLogOut = jest.fn();
@@ -19,7 +18,7 @@ describe('AccountMenu', () => {
         render(<AccountMenu onLogOut={mockLogOut} />);
 
         const avatar = screen.getByRole('button');
-        userEvent.click(avatar);
+        fireEvent.click(avatar);
 
         const menu = screen.getByRole('menu');
         expect(menu).toBeInTheDocument();
@@ -29,7 +28,7 @@ describe('AccountMenu', () => {
         render(<AccountMenu onLogOut={mockLogOut} />);
 
         const avatar = screen.getByRole('button');
-        userEvent.click(avatar);
+        fireEvent.click(avatar);
 
         const menu = screen.getByRole('menu');
         expect(menu).toBeInTheDocument();
@@ -47,10 +46,10 @@ describe('AccountMenu', () => {
         render(<AccountMenu onLogOut={mockLogOut} />);
 
         const avatar = screen.getByRole('button');
-        userEvent.click(avatar);
+        fireEvent.click(avatar);
 
         const logoutMenuItem = screen.getByText('Logout');
-        userEvent.click(logoutMenuItem);
+        fireEvent.click(logoutMenuItem);
 
         expect(mockLogOut).toHaveBeenCalledTimes(1);
     });
@@ -59,15 +58,15 @@ describe('AccountMenu', () => {
         render(<AccountMenu onLogOut={mockLogOut} />);
 
         const avatar = screen.getByRole('button');
-        userEvent.click(avatar);
+        fireEvent.click(avatar);
 
         const profileMenuItem = screen.getByText('Profile');
-        userEvent.click(profileMenuItem);
+        fireEvent.click(profileMenuItem);
 
         expect(mockLogOut).not.toHaveBeenCalled();
 
         const accountSettingsMenuItem = screen.getByText('Account Settings');
-        userEvent.click(accountSettingsMenuItem);
+        fireEvent.click(accountSettingsMenuItem);
 
         expect(mockLogOut).not.toHaveBeenCalled();
     });
