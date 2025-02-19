@@ -3,12 +3,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import mockAxios from "axios-mock-adapter";
 import { authState } from "../store/auth-state";
-import { api } from "../utils/axios-middleware";
 import LoginPage from "./LoginPage";
 
-const mock = new mockAxios(api);
 
 const store = configureStore({
     reducer: {
@@ -24,7 +21,6 @@ describe("LoginPage", () => {
     const mockNavigate = jest.fn();
 
     beforeEach(() => {
-        mock.reset();
         require('react-router').useNavigate.mockImplementation(() => mockNavigate);
     });
 
