@@ -17,7 +17,6 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "axios": "^1.7.9",
-    "axios-mock-adapter": "^2.1.0",
     "deck.gl": "^9.0.0",
     "jest": "^27.5.1",
     "maplibre-gl": "^5.0.0",
