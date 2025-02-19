@@ -2,9 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError, AxiosResponse } from "axios";
 import { api } from "../utils/axios-middleware";
 import { Feature } from "../models/feature.model";
-import { Point } from "../models/point.model";
 
-const initialState: { mapData: Point[], pending: boolean, error: string } = { mapData: [], pending: false, error: '' }
+const initialState: { mapData: Feature[], pending: boolean, error: string } = { mapData: [], pending: false, error: '' }
 export const appState = createSlice({
     name: 'appState',
     initialState,
@@ -13,20 +12,12 @@ export const appState = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getMapData.fulfilled, (state, action) => {
-            state.mapData = action.payload.data.features.map((feature) => ({
-                position: feature.geometry.coordinates,
-                id: feature.properties.id,
-                name: feature.properties.name,
-            }));
+            state.mapData = action.payload.data.features;
             state.pending = false;
             state.error = ''
         })
             .addCase(getHeavyMapData.fulfilled, (state, action) => {
-                state.mapData = action.payload.data.features.map((feature) => ({
-                    position: feature.geometry.coordinates,
-                    id: feature.properties.id,
-                    name: feature.properties.name,
-                }));
+                state.mapData = action.payload.data.features;
                 state.pending = false;
                 state.error = ''
             })

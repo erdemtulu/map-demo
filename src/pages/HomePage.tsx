@@ -6,9 +6,9 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, IRootState } from '../store/store';
 import { getHeavyMapData, getMapData } from '../store/app-state';
-import { Point } from '../models/point.model';
 import { Box, Snackbar, ToggleButton, Tooltip } from '@mui/material';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+import { Feature } from '../models/feature.model';
 //Set the initial view state to nootdorp
 const INITIAL_VIEW_STATE = {
     latitude: 52.047,
@@ -43,11 +43,11 @@ function DeckGLOverlayComponent({ layers, mapRef }: DeckGLOverlayProps) {
 }
 export default function HomePage() {
     const dispatch = useDispatch<AppDispatch>()
-    const points: Point[] = useSelector((state: IRootState) => state.app.mapData)
+    const points: Feature[] = useSelector((state: IRootState) => state.app.mapData)
     const mapDataPending: boolean = useSelector((state: IRootState) => state.app.pending)
     const mapDataError: string = useSelector((state: IRootState) => state.app.error)
     const mapRef = useRef<MapRef>(null);
-    const [selected, setSelected] = useState<Point | null>(null);
+    const [selected, setSelected] = useState<Feature | null>(null);
     const [heavy, setHeavy] = useState(false)
 
     useEffect(() => {
@@ -63,7 +63,7 @@ export default function HomePage() {
             data: points,
             getColor: [255, 0, 0],
             getIcon: () => 'marker-warning',
-            getPosition: (d: Point) => d.position,
+            getPosition: (d: Feature) => d.geometry.coordinates,
             getSize: 20,
             iconAtlas: 'icon-atlas.png',
             iconMapping: {
@@ -118,13 +118,13 @@ export default function HomePage() {
                 <ScaleControl />
                 {selected && (
                     <Popup
-                        key={selected.id}
+                        key={selected.properties.id}
                         anchor="bottom"
                         style={{ zIndex: 10 }}
-                        longitude={selected.position[0]}
-                        latitude={selected.position[1]}
+                        longitude={selected.geometry.coordinates[0]}
+                        latitude={selected.geometry.coordinates[1]}
                     >
-                        {selected.name}
+                        {selected.properties.name}
                     </Popup>
                 )}
                 <DeckGLOverlayComponent layers={layers} mapRef={mapRef} />
