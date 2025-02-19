@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <LoginPage />,
+        element: localStorage.getItem('accessToken') ? <Navigate to='/app' /> : <LoginPage />,
       },
     ]
   }
